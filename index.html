@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>春日花鉴 | 花卉鉴赏首页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Noto Sans', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(145deg, #fef9f0 0%, #fff7ed 100%);
+            color: #2c3e2f;
+            line-height: 1.5;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+        }
+
+        /* 头部样式 */
+        .header {
+            text-align: center;
+            padding: 1rem 0 1.5rem;
+            border-bottom: 2px solid #e9d6b0;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #5b8c5a, #c97e5a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7a5a4b;
+            font-style: italic;
+        }
+
+        /* 导航栏简洁风格（底部导航也会存在） */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c6e4a;
+            font-weight: 500;
+            transition: 0.2s;
+            border-bottom: 1px dashed transparent;
+        }
+
+        .nav-links a:hover {
+            color: #c17a4a;
+            border-bottom-color: #c17a4a;
+        }
+
+        /* 花卉网格卡片 */
+        .flower-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .flower-card {
+            background: rgba(255, 252, 240, 0.85);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 12px 28px rgba(100, 70, 40, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f3e5c0;
+            cursor: pointer;
+        }
+
+        .flower-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px rgba(90, 60, 30, 0.15);
+            border-color: #e2c28b;
+        }
+
+        .card-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            padding: 1rem;
+        }
+
+        /* 用emoji + 纯色背景替代外链图片，清新且无失效风险 */
+        .card-emoji {
+            font-size: 5rem;
+            background: rgba(250, 245, 225, 0.7);
+            width: 100%;
+            text-align: center;
+            border-radius: 30px;
+            backdrop-filter: blur(4px);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.8rem;
+            color: #4f6d3c;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content p {
+            color: #5a4a3a;
+            margin: 0.5rem 0;
+            line-height: 1.4;
+        }
+
+        .btn-detail {
+            display: inline-block;
+            margin-top: 1rem;
+            background: #d9c49b;
+            color: #3e4d2e;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-detail:hover {
+            background: #c7af7a;
+            color: #2a3a1f;
+            transform: scale(0.97);
+        }
+
+        /* 底部通用样式 */
+        .footer {
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid #eadbba;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #8b765a;
+        }
+
+        .flower-links-footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .flower-links-footer a {
+            text-decoration: none;
+            color: #6f5a3e;
+            background: #fbf3e3;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+
+        .flower-links-footer a:hover {
+            background: #ecdbb8;
+            color: #3a532a;
+        }
+
+        /* 详情页面布局 */
+        .detail-main {
+            background: #fffcf5;
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+            margin: 1rem 0;
+        }
+
+        .flower-title {
+            font-size: 2.8rem;
+            border-left: 8px solid #e7b874;
+            padding-left: 1.2rem;
+            margin-bottom: 1rem;
+            color: #3b5c2a;
+        }
+
+        .flower-sub {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            background: #fdf6e8;
+            padding: 1.2rem;
+            border-radius: 1.5rem;
+        }
+
+        .info-item {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .info-item strong {
+            color: #b1623a;
+            display: block;
+            font-size: 1rem;
+        }
+
+        .info-item span {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .poem {
+            background: #f2ede0;
+            padding: 1rem 1.5rem;
+            border-radius: 1.2rem;
+            font-style: italic;
+            margin: 1.2rem 0;
+            color: #7a5a44;
+        }
+
+        .back-home {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 680px) {
+            .container {
+                padding: 1rem;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .flower-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🌸 春日花鉴 · 百花风雅录</h1>
+        <p>探寻春日花卉的诗意与生机 | 八种经典花卉鉴赏指南</p >
+        <div class="nav-links">
+            <a href=" ">🏠 首页</a >
+            <a href="#flower-gallery">🌼 花卉图鉴</a >
+            <a href="#about">📖 春日物语</a >
+        </div>
+    </div>
+
+    <section id="flower-gallery">
+        <h2 style="font-size: 1.8rem; margin-bottom: 1rem; color:#6f4e2e;">⋆｡°✩ 春日信使 ✩°｡⋆</h2>
+        <div class="flower-grid">
+            <!-- 樱花 -->
+            <div class="flower-card">
+                <div class="card-img" style="background: linear-gradient(125deg, #ffe6f0, #ffcddc);"><div class="card-emoji">🌸🌸🌸</div></div>
+                <div class="card-content">
+                    <h3>樱花 · 刹那芳华</h3>
+                    <p>蔷薇科樱属，花期短暂却绚烂至极，象征希望与热烈。</p >
+                    <a href="cherry.html" class="btn-detail">阅读鉴赏 →</a >
+                </div>
+            </div>
+            <!-- 桃花 -->
+            <div class="flower-card">
+                <div class="card-img" style="background: linear-gradient(125deg, #ffded5, #ffb7a5);"><div class="card-emoji">🍑🌸</div></div>
+                <div class="card-content">
+                    <h3>桃花 · 灼灼其华</h3>
+                    <p>蔷薇科桃属，春风十里不如你，寓意美好姻缘与生机。</p >
+                    <a href="peach.html" class="btn-detail">阅读鉴赏 →</a >
+                </div>
+            </div>
+            <!-- 郁金香 -->
+            <div class="flower-card">
+                <div class="card-img" style="background: linear-gradient(125deg, #e3f0e8, #cbe5d4);"><div class="card-emoji">🌷🌷</div></div>
+                <div class="card-content">
+                    <h3>郁金香 · 优雅盛情</h3>
+                    <p>百合科郁金香属，端庄高洁，荷兰国花，春日的色彩盛宴。</p >
+                    <a href="tulip.html" class="btn-detail">阅读鉴赏 →</a >
+                </div>
+            </div>
+            <!-- 玉兰 -->
+            <div class="flower-card">
+                <div class="card-img" style="background: linear-gradient(125deg, #ece4f0, #dfd3e8);"><div class="card-emoji">🤍🌿</div></div>
+                <div class="card-content">
+                    <h3>玉兰 · 冰清玉洁</h3>
+                    <p>木兰科玉兰属，先花后叶，高洁芬芳，象征真挚报恩。</p >
+                    <a href="magnolia.html" class="btn-detail">阅读鉴赏 →</a >
+                </div>
+            </div>
+            <!-- 海棠 -->
+            <div class="flower-card">
+                <div class="card-img" style="background: linear-gradient(125deg, #ffefd6, #ffe2bf);"><div class="card-emoji">🌺✨</div></div>
+                <div class="card-content">
+                    <h3>海棠 · 解语花姿</h3>
+                    <p>蔷薇科苹果属，花姿潇洒，素有“花中神仙”之誉。</p >
+                    <a href="crabapple.html" class="btn-detail">阅读鉴赏 →</a >
+                </div>
+            </div>
+            <!-- 牡丹 -->
+            <div class="flower-card">
+                <div class="card-img" style="background: linear-gradient(125deg, #fbe5f0, #f8cfdf);"><div class="card-emoji">🌺🏵️</div></div>
+                <div class="card-content">
+                    <h3>牡丹 · 国色天香</h3>
+                    <p>芍药科芍药属，花中之王，雍容华贵，盛世象征。</p >
+                    <a href="peony.html" class="btn-detail">阅读鉴赏 →</a >
+                </div>
+            </div>
+            <!-- 杜鹃 -->
+            <div class="flower-card">
+                <div class="card-img" style="background: linear-gradient(125deg, #ffe0e7, #ffc2cf);"><div class="card-emoji">🌹🌿</div></div>
+                <div class="card-content">
+                    <h3>杜鹃 · 映山红遍</h3>
+                    <p>杜鹃花科，灿若云霞，代表永远属于你与爱的喜悦。</p >
+                    <a href="azalea.html" class="btn-detail">阅读鉴赏 →</a >
+                </div>
+            </div>
+            <!-- 油菜花 -->
+            <div class="flower-card">
+                <div class="card-img" style="background: linear-gradient(125deg, #faf3cf, #ffe6a3);"><div class="card-emoji">🌼🌾</div></div>
+                <div class="card-content">
+                    <h3>油菜花 · 金浪春潮</h3>
+                    <p>十字花科芸薹属，灿烂朴实，寓意丰收希望。</p >
+                    <a href="rapeseed.html" class="btn-detail">阅读鉴赏 →</a >
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" style="background: #f7efdf; border-radius: 2rem; padding: 1.8rem; margin: 2rem 0;">
+        <h3 style="color:#7a5c3a;">📜 春日花语 · 鉴赏絮语</h3>
+        <p style="margin-top: 0.5rem;">春日花卉不止于视觉之美，更承载千年文化意象。从《诗经》"桃之夭夭"到白居易笔下的"樱花落尽阶前月"，每一朵花开都是一首诗。本网站精选八种经典春季花卉，从植物特性、花语到文学典故，共赴一场风雅花事。🌸 愿君莫负好春光。</p >
+    </section>
+
+    <div class="footer">
+        <div class="flower-links-footer">
+            <a href="cherry.html">🌸 樱花</a >
+            <a href="peach.html">🍑 桃花</a >
+            <a href="tulip.html">🌷 郁金香</a >
+            <a href="magnolia.html">🤍 玉兰</a >
+            <a href="crabapple.html">🌺 海棠</a >
+            <a href="peony.html">🏵️ 牡丹</a >
+            <a href="azalea.html">🌹 杜鹃</a >
+            <a href="rapeseed.html">🌼 油菜花</a >
+        </div>
+        <p>© 春日花鉴 · 花卉鉴赏专题 | 芬芳四月 雅集于此</p >
+        <p style="font-size:0.8rem;">未公开发表 · 仅作春日美学鉴赏</p >
+    </div>
+</div>
+</body>
+</html>
